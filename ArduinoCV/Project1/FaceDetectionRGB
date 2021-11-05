@@ -1,0 +1,22 @@
+# This code is similar to FaceDetectionLed code but this gives output in RGB
+
+import cv2
+from cvzone.FaceDetectionModule import FaceDetector
+from cvzone.SerialModule import SerialObject
+
+cap = cv2.VideoCapture(0)
+detector = FaceDetector()  
+arduino = SerialObject("COM6")
+while True:
+    success, img = cap.read()
+    img , bboxs = detector.findFaces(img) 
+
+    # RGB takes 3 inputs therefore 3 values are given in sendData function
+    # '0' means off and '1' means on
+    
+    if bboxs:
+        arduino.sendData([0,1,0])            # 0,1,0 means green color
+    else:
+        arduino.sendData([1,0,0])            # 1,0,0 means red color
+    cv2.imshow("FaceDetection Basics",img)
+    cv2.waitKey(1) 

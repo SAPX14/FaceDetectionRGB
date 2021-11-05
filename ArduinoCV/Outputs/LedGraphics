@@ -1,0 +1,13 @@
+from cvzone.SerialModule import SerialObject
+import cv2 
+
+arduino = SerialObject("COM6")
+imgLedOn = cv2.imread("Resources/LedOn.jpg")     # ../ is used because led images are in another folder so to access them
+imgLedOff = cv2.imread("Resources/LedOff.jpg")
+while True:
+    arduino.sendData([1])
+    cv2.imshow("image",imgLedOn)
+    cv2.waitKey(3000)
+    arduino.sendData([0])
+    cv2.imshow("image",imgLedOff)
+    cv2.waitKey(1000)
